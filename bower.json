@@ -1,0 +1,25 @@
+{
+  "name": "weather-viewer",
+  "authors": [
+    "Nick Charbonneau <nick.charby@gmail.com>"
+  ],
+  "description": "A simple weather map webapp",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone.marionette": "marionette#^2.4.7",
+    "requirejs": "^2.2.0",
+    "mapbox.js": "^2.4.0",
+    "handlebars": "^4.0.5",
+    "text": "requirejs-text#^2.0.15"
+  }
+}

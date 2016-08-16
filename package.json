@@ -1,0 +1,21 @@
+{
+  "name": "weather-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.1.1",
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "mapbox-gl": "^0.22.0",
+    "requirejs": "^2.2.0"
+  }
+}
