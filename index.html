@@ -1,9 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset='utf-8' />
 	<title>Weather Viewer</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<!-- I'm going CDN for these. There's a fare chance the user already has them. -->
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.3.0/mapbox-gl-geocoder.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.22.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v1.3.0/mapbox-gl-geocoder.css' type='text/css' />
+
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
 </head>
 <body>
-<h1>test</h1>
+
+	<div class="map fullscreen"></div>
+
+
+
+	<!-- Bootstrapped data -->
+	<script type="text/javascript">
+		// these would be spat out by the middle tier to hydrate the app
+
+		var userinfo = { //out of scope, so I'm not spending time here
+			username: 'Nick',
+			usergroup: 'admin'
+		};
+
+		//TODO hard coding these is bad. Burning my time to build something nicer is worse
+		//roll these over if you get ambitious
+		var apikey = {
+			"forecast": "a35c22c5e8404530d88d0fd5e07f6389",
+    		"mapbox": "pk.eyJ1IjoibmNoYXJieSIsImEiOiJjaXJ3cWwweTMwMDBwMnludzM5aXN3MmtmIn0.um07iAtzCk6WC62bdSKb4g"
+		};
+
+	</script>
+
+
+	<script type="text/javascript" data-main="src/init" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>

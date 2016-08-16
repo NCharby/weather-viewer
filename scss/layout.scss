@@ -1,0 +1,13 @@
+
+
+
+.map {
+	//There could be more than one map
+	&.fullscreen {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+	}
+
+}
