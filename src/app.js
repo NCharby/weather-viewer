@@ -22,15 +22,14 @@ define([
 	 * @type {Backbone.Model}
 	 */
     var _settings = Backbone.Model.extend({
-    	//seperating settings up by [domain]:[key] sets a precident for thinking about things in groups
-    	//Also, you can listen for things like "change:apikey" without know what api key changed
-    	defaults: {
-    		"apikey:forecast": false,
-    		"apikey:mapbox": false
+    	defaults: { //this is a nice way of noting what is expected here
+    		"apikey": false,
+            "userinfo": false,
+            "userlocation": false,
+            "isLoggedIn": false
     	},
     	/**
     	 * Hydrate the settings object with the user's location
-    	 * @return {[type]} [description]
     	 */
     	initialize: function(){
     		//Set the location in this order
@@ -106,7 +105,7 @@ define([
      * Core Application object definition. 
      * 
      */
-    var app = Marionette.Application.extend({
+    var _app = Marionette.Application.extend({
     	initialize: function(options){
 
     	},
@@ -124,14 +123,8 @@ define([
 	//We can easily access parts of the App like the Router or a Utilities object.
 	//We can debug more easily without having to throw in a bunch of console.logs
 	//We get one cosy place to bolt on major additions later
-    App = new app;
+    App = new _app;
     App.on('start', function(){
-		//Load our 'bootstrapped' data
-        //would need extending if more objects hit the dom
-		for( var b in window.bootstrap){
-            App.Settings.set(b, window.bootstrap[b])
-        };
-
 		App.Behaviors = App.Behaviors || {};
 
 		//everthing is ready, show the header

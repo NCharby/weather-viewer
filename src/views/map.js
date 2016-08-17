@@ -6,7 +6,6 @@ define([
 		template: false,
 		el: '.map.fullscreen',
 		events: { //Hmmm... I bet I could shim mapboxgl with Backbone.Events....
-			
 		},
 		initialize: function(params){
 			//TODO Fallback for web gl
@@ -14,12 +13,11 @@ define([
     			alert("Uh Oh. Mapbox GL doesn't work in your browser!");
 			}
 			//set context of callbacks to this view - more useful
-			_.bindAll(this, "onMoveEnd", "onGeocoderResult");
+			_.bindAll(this, "onClick", "onGeocoderResult");
 
 			this.Map = this.initMap(App.Settings.get('apikeys').mapbox);
-			this.Map.once('render', this.onMoveEnd); //fired on load. Do once
-			this.Map.on("moveend", this.onMoveEnd);
-
+			//this.Map.once('load', this.onMoveEnd); //fired on load. Do once
+			this.Map.on("click", this.onClick);
 
 			//init the location search box
 			this.Geocoder = this.initGeocoder();
@@ -58,8 +56,17 @@ define([
 			return _geocoder;
 		},
 
-		onMoveEnd: function(evt){
-			console.log(evt, this)
+		onClick: function(evt){
+
+
+			this.Popup = new mapboxgl.Popup()
+				.setLngLat(evt.lngLat)
+				.setHTML('<h1>hit</h1>')
+				.addTo(this.Map);
+		},
+
+		getPopupHTML: function(){
+
 		},
 
 		onGeocoderResult: function(evt){

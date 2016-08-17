@@ -38,4 +38,11 @@ require([
 ], function(App){
 	//This would be a good place to pass in start-up options too.
 	App.start();
+
+	//Load our 'bootstrapped' data
+	//Clever way of grabbing everything that gets emitted out
+    //would need extending if more objects hit the dom
+	for( var b in window.bootstrap){
+        App.Settings.set(b, window.bootstrap[b])
+    };
 });
