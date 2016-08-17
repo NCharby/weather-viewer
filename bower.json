@@ -23,6 +23,7 @@
     "text": "requirejs-text#^2.0.15",
     "lodash": "^4.15.0",
     "jquery": "^3.1.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "moment": "^2.14.1"
   }
 }

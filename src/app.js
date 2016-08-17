@@ -1,13 +1,17 @@
 define([
+	"views/header",
 	"jquery",
 	"underscore",
-	"backbone.marionette"
-], function($, _, Marionette){
+	"backbone.marionette",
+	"handlebars",
+	"bootstrap"
+], function(headerView, $, _, Marionette, Handelbars, Bootstrap){
 
 	//Do some overrides for my sanity
 	Marionette.TemplateCache.prototype.compileTemplate = function(n, t) {
         return Handelbars.compile(n, t)
     };
+    //kinda goofy thing in Marionette, you have to set this location yourself.
     Marionette.Behaviors.behaviorsLookup = function() {
         return App.Behaviors
     };
@@ -60,6 +64,9 @@ define([
     	initialize: function(options){
 
     	},
+    	regions: { //setup the a container for the header
+    		HeaderRegion: '.nav-header'
+    	},
     	Settings: new _settings,
     	Router: new _router
     });
@@ -79,9 +86,10 @@ define([
 		App.Settings.set('apikey:forecast', window.apikey.forcast);
 		App.Settings.set('apikey:mapbox', window.apikey.mapbox);
 
-		//kinda goofy thing in Marionette, you have to set this location yourself.
 		App.Behaviors = App.Behaviors || {};
 
+		//everthing is ready, show the header
+		App.getRegion('HeaderRegion').show(new headerView({model: App.Settings}))
 		//fire up the Backbone router, will trigger views
 		Backbone.history.start();
 	});

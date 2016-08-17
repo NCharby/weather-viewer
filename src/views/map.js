@@ -1,11 +1,11 @@
 define([
-
+	
 ], function(){
 
 	return Marionette.ItemView.extend({
 		template: false,
 		el: '.map.fullscreen',
-		events: {
+		events: { //Hmmm... I bet I could shim mapboxgl with Backbone.Events....
 			"click": "onClick"
 		},
 		initialize: function(params){
@@ -16,6 +16,10 @@ define([
 			}
 
 			this.Map = this.initMap(App.Settings.get('apikey:mapbox'));
+
+			this.Map.on("moveend", this.onMoveEnd)
+
+
 			//init the location search box
 			this.Geocoder = this.initGeocoder();
 			//coordinate events from the geocoder
@@ -49,11 +53,15 @@ define([
 			return _geocoder;
 		},
 
-		onClick: function(){
+		onMoveEnd: function(evt){
 
 		},
 
-		onGeocoderResult: function(){
+		onClick: function(evt){
+
+		},
+
+		onGeocoderResult: function(evt){
 
 		}
 	})

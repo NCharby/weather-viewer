@@ -5,7 +5,10 @@ require.config({
 		backbone: "../bower_components/backbone/backbone-min",
 		underscore: "../bower_components/underscore/underscore-min",
 		"backbone.marionette": "../bower_components/backbone.marionette/lib/backbone.marionette.min",
-		text: "../bower_components/text/text"
+		handlebars: "../bower_components/handlebars/handlebars.min",
+		//text: "../bower_components/text/text",
+		moment: "../bower_components/moment/min/moment.min",
+		bootstrap: "../bower_components/bootstrap/dist/js/bootstrap.min"
 	},
 	shim: {
 		underscore: {
@@ -19,7 +22,10 @@ require.config({
 	      deps: ["backbone"],
 	      exports: "Marionette"
 	    },
-	    tpl: ["text"]
+	    //tpl: ["text"],
+	    bootstrap: { 
+	    	"deps": ['jquery'] 
+	    }
 	}
 
 });
