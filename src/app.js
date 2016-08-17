@@ -54,7 +54,6 @@ define([
 				)
 
     		} else {
-    			//TODO fallback for Geolocation
     			console.warn("Geococation Not supported");
     			_geolocationFail(this)
     		}
@@ -68,7 +67,7 @@ define([
     			} else {
     				ctx.set('userlocation', {
 	    				"lat": 25.0000,
-	    				"long": 71.0000
+	    				"long": -71.0000
 	    			});
     			}
     		}
@@ -113,7 +112,42 @@ define([
     		HeaderRegion: '.nav-header'
     	},
     	Settings: new _settings,
-    	Router: new _router
+    	Router: new _router,
+        /**
+         * Keep services on the App level. This lets us instaciate once if there 
+         * are multiple consumers. 
+         * @type {Object}
+         */
+        Services: {},
+        /**
+         * Add a Service to the App.Services object. Will return an instanciated 
+         * if you've alread called this for a service. 
+         * 
+         * Experimental
+         * @param name {string} What to reference the service by
+         * @param service {function} The service definition
+         * @param options {object} What to pass on instanciation
+         */
+        setService: function(name, service, options){
+            //return the instanciated service if you've already done this
+            _.each(this.Services, function(s, n){
+                if(s instanceof service){
+                    return s;
+                }
+                if(n.toLowerCase() === name.toLowerCase()){ //prevent case differences
+                    throw new Error("setService: Whoa, name overlap")
+                }
+            });
+            //safety first kids, this is core functionality
+            //I'm sure I'm missing edge cases here
+            if(_.isString('name') || typeof service === "function"){
+                //set the thing
+                return this.Services[name] = new service(options);                
+            } else {
+                throw new Error('Whoa, slow down there. setService expects better arguments than that.')
+            }
+            
+        }
     });
 
 

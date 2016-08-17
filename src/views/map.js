@@ -16,9 +16,8 @@ define([
 			_.bindAll(this, "onClick", "onGeocoderResult");
 
 			this.Map = this.initMap(App.Settings.get('apikeys').mapbox);
-			//this.Map.once('load', this.onMoveEnd); //fired on load. Do once
+			//bind popup action
 			this.Map.on("click", this.onClick);
-
 			//init the location search box
 			this.Geocoder = this.initGeocoder();
 			//coordinate events from the geocoder
@@ -30,6 +29,8 @@ define([
 				this.trigger('geocoder:result', error)
 			}.bind(this));
 
+			//init the service
+			App.setService('Forecast', Forecast);
 		},
 		/**
 		 * Start Mapbox! Sets the container to this element.
@@ -42,8 +43,11 @@ define([
 			return new mapboxgl.Map({
 				container: this.$el[0],
 				style: 'mapbox://styles/mapbox/streets-v9',
-    			center: [App.Settings.get('userlocation').lat, App.Settings.get('userlocation').long],
-    			zoom: 9
+    			center: { 
+    				lat: App.Settings.get('userlocation').lat, 
+    				lng: App.Settings.get('userlocation').long
+    			},
+    			zoom: 5
 			});
 		},
 		/**
@@ -58,7 +62,8 @@ define([
 
 		onClick: function(evt){
 
-
+			console.log(evt.lngLat)
+			console.log([App.Settings.get('userlocation').lat, App.Settings.get('userlocation').long])
 			this.Popup = new mapboxgl.Popup()
 				.setLngLat(evt.lngLat)
 				.setHTML('<h1>hit</h1>')
