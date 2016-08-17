@@ -9,11 +9,11 @@ define([
 
 	//Do some overrides for my sanity
 	Marionette.TemplateCache.prototype.compileTemplate = function(n, t) {
-        return Handelbars.compile(n, t)
+        return Handelbars.compile(n, t);
     };
     //kinda goofy thing in Marionette, you have to set this location yourself.
     Marionette.Behaviors.behaviorsLookup = function() {
-        return App.Behaviors
+        return App.Behaviors;
     };
 
     /**
@@ -27,6 +27,52 @@ define([
     	defaults: {
     		"apikey:forecast": false,
     		"apikey:mapbox": false
+    	},
+    	/**
+    	 * Hydrate the settings object with the user's location
+    	 * @return {[type]} [description]
+    	 */
+    	initialize: function(){
+    		//Set the location in this order
+    		// - bootstrapped location (useful if we save that info in a profile, done by App start function)
+    		// - geolocation
+    		// - the Beruta Triangle
+    		//  
+    		//this gets a bit long-winded
+    		//TODO localstorage option for the last map position
+    		if(!window.bootstrap.userinfo.userlocation && navigator.geolocation){
+    			navigator.geolocation.getCurrentPosition(
+    				function(position) {
+	    				this.set('userlocation', {
+	    					"lat":  position.coords.latitude,
+	    					"long": position.coords.longitude
+	    				});
+					}.bind(this),
+					function(e){ ///location failed
+						console.warn("Geolocation failed", e)
+	    				_geolocationFail(this);
+	    			}.bind(this)
+				)
+
+    		} else {
+    			//TODO fallback for Geolocation
+    			console.warn("Geococation Not supported");
+    			_geolocationFail(this)
+    		}
+
+    		function _geolocationFail(ctx){
+    			if(window.bootstrap.userinfo.userlocation){
+	    			ctx.set('userlocation', {
+	    				"lat": window.userinfo.userlocation.lat,
+	    				"long": window.userinfo.userlocation.long
+	    			});
+    			} else {
+    				ctx.set('userlocation', {
+	    				"lat": 25.0000,
+	    				"long": 71.0000
+	    			});
+    			}
+    		}
     	}
     });
 
@@ -50,7 +96,7 @@ define([
     		});
     	},
     	help: function(){
-    		//example code for having multip routes
+    		//example code for having multiple routes
     		//I don't want to get into this, as I'd have to setup an actual server
     	}
     });
@@ -64,7 +110,7 @@ define([
     	initialize: function(options){
 
     	},
-    	regions: { //setup the a container for the header
+    	regions: { //setup a container for the header
     		HeaderRegion: '.nav-header'
     	},
     	Settings: new _settings,
@@ -81,10 +127,10 @@ define([
     App = new app;
     App.on('start', function(){
 		//Load our 'bootstrapped' data
-		//Doing much with this is out of scope for this quick project
-		App.Settings.set('userinfo', window.userinfo);
-		App.Settings.set('apikey:forecast', window.apikey.forcast);
-		App.Settings.set('apikey:mapbox', window.apikey.mapbox);
+        //would need extending if more objects hit the dom
+		for( var b in window.bootstrap){
+            App.Settings.set(b, window.bootstrap[b])
+        };
 
 		App.Behaviors = App.Behaviors || {};
 

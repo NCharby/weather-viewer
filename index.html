@@ -22,23 +22,23 @@
 	<!-- Bootstrapped data -->
 	<script type="text/javascript">
 		// these would be spat out by the middle tier to hydrate the app
-
-		var userinfo = { //out of scope, so I'm not spending much time here
-			username: 'Nick',
-			usergroup: 'admin',
-			isLoggedIn: true
-		};
-
-		//TODO hard coding these is bad. Burning my time to build something nicer is worse
-		//roll these over if you get ambitious
-		var apikey = {
-			"forecast": "a35c22c5e8404530d88d0fd5e07f6389",
-    		"mapbox": "pk.eyJ1IjoibmNoYXJieSIsImEiOiJjaXJ3cWwweTMwMDBwMnludzM5aXN3MmtmIn0.um07iAtzCk6WC62bdSKb4g"
-		};
-
+		var bootstrap = {
+			userinfo: { //out of scope, so I'm not spending much time here
+				username: 'Nick',
+				usergroup: 'admin',
+				isLoggedIn: true
+			},
+			//TODO hard coding these is bad. Burning my time to build something nicer is worse
+			//roll these over if you get ambitious
+			apikeys: {
+				"forecast": "a35c22c5e8404530d88d0fd5e07f6389",
+	    		"mapbox": "pk.eyJ1IjoibmNoYXJieSIsImEiOiJjaXJ3cWwweTMwMDBwMnludzM5aXN3MmtmIn0.um07iAtzCk6WC62bdSKb4g"
+			}
+		}
 	</script>
 
-
+	<!-- You cant your the requirejs-text plugin on localhost :( -->
+	<!-- Templating the lame way -->
 	<script type="text/x-handlebars-template" id="tpl-header">
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">

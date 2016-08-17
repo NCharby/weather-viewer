@@ -1,23 +1,24 @@
 define([
-	
-], function(){
+	"../services/forecast"
+], function(Forecast){
 
 	return Marionette.ItemView.extend({
 		template: false,
 		el: '.map.fullscreen',
 		events: { //Hmmm... I bet I could shim mapboxgl with Backbone.Events....
-			"click": "onClick"
+			
 		},
 		initialize: function(params){
-			console.log(this)
 			//TODO Fallback for web gl
 			if (!mapboxgl.supported()) {
     			alert("Uh Oh. Mapbox GL doesn't work in your browser!");
 			}
+			//set context of callbacks to this view - more useful
+			_.bindAll(this, "onMoveEnd", "onGeocoderResult");
 
-			this.Map = this.initMap(App.Settings.get('apikey:mapbox'));
-
-			this.Map.on("moveend", this.onMoveEnd)
+			this.Map = this.initMap(App.Settings.get('apikeys').mapbox);
+			this.Map.once('render', this.onMoveEnd); //fired on load. Do once
+			this.Map.on("moveend", this.onMoveEnd);
 
 
 			//init the location search box
@@ -33,7 +34,8 @@ define([
 
 		},
 		/**
-		 * [initMap description]
+		 * Start Mapbox! Sets the container to this element.
+		 * @uses App.Settings 
 		 * @param {string} The MapBox AccessToken
 		 * @return {Object} A MapBox Map 
 		 */
@@ -42,11 +44,14 @@ define([
 			return new mapboxgl.Map({
 				container: this.$el[0],
 				style: 'mapbox://styles/mapbox/streets-v9',
-    			center: [-74.50, 40],
+    			center: [App.Settings.get('userlocation').lat, App.Settings.get('userlocation').long],
     			zoom: 9
 			});
 		},
-
+		/**
+		 * Add the Geocoder extension to the MapBox instance 
+		 * @return {Geocoder}
+		 */
 		initGeocoder: function(){
 			var _geocoder = new mapboxgl.Geocoder();
 			this.Map.addControl(_geocoder);
@@ -54,11 +59,7 @@ define([
 		},
 
 		onMoveEnd: function(evt){
-
-		},
-
-		onClick: function(evt){
-
+			console.log(evt, this)
 		},
 
 		onGeocoderResult: function(evt){

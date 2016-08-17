@@ -5,7 +5,10 @@ define([
 	"underscore",
 	"backbone.marionette"
 ], function($, _, Marionette){
-
+	/**
+	 * Minimal code to get a view showing up
+	 * @type {Marionette.ItemView}
+	 */
 	return Marionette.ItemView.extend({
 		tagName: 'nav',
 		className: "navbar navbar-inverse",
