@@ -3,6 +3,7 @@
 	z-index: 10;
 }
 
+
 .map {
 	//There could be more than one map
 	&.fullscreen {
@@ -11,5 +12,8 @@
 		bottom: 0;
 		width: 100%;
 	}
+}
 
+.mapboxgl-popup {
+	width: 320px;
 }

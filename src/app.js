@@ -23,61 +23,64 @@ define([
 	 */
     var _settings = Backbone.Model.extend({
     	defaults: { //this is a nice way of noting what is expected here
-    		"apikey": false,
+    		"apikeys": false,
             "userinfo": false,
             "userlocation": false,
-            "isLoggedIn": false
+            "isLoggedIn": false,
+            "userlocation": false
     	},
-    	/**
-    	 * Hydrate the settings object with the user's location
-    	 */
-    	initialize: function(){
-    		//Set the location in this order
-    		// - bootstrapped location (useful if we save that info in a profile, done by App start function)
-    		// - geolocation
-    		// - the Beruta Triangle
-    		//  
-    		//this gets a bit long-winded
-    		//TODO localstorage option for the last map position
-    		if(!window.bootstrap.userinfo.userlocation && navigator.geolocation){
-    			navigator.geolocation.getCurrentPosition(
-    				function(position) {
-	    				this.set('userlocation', {
-	    					"lat":  position.coords.latitude,
-	    					"long": position.coords.longitude
-	    				});
-					}.bind(this),
-					function(e){ ///location failed
-						console.warn("Geolocation failed", e)
-	    				_geolocationFail(this);
-	    			}.bind(this)
-				)
+        /**
+         * Set a start location for the user. 
+         * @triggers 'userlocation:ready'
+         * @returns {Backbone.Model} this
+         */
+        setUserLocation: function(){
+            //Set the location in this order
+            // - bootstrapped location (useful if we save that info in a profile, done by App start function)
+            // - geolocation
+            // - the Beruta Triangle
+            //  
+            //this gets a bit long-winded
+            if(this.get('userlocation')){
+                this.trigger('userlocation:ready', this.get('userlocation'));
+                return this;
+            }
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        this.set('userlocation', {
+                            "lat":  position.coords.latitude,
+                            "lng": position.coords.longitude
+                        });
+                        this.trigger('userlocation:ready', this.get('userlocation'));
+                    }.bind(this),
+                    function(e){ ///location failed
+                        console.warn("Geolocation failed", e)
+                        _geolocationFail(this);
+                    }.bind(this)
+                );
 
-    		} else {
-    			console.warn("Geococation Not supported");
-    			_geolocationFail(this)
-    		}
+            } else {
+                console.warn("Geococation Not supported");
+                _geolocationFail(this)
+            }
 
-    		function _geolocationFail(ctx){
-    			if(window.bootstrap.userinfo.userlocation){
-	    			ctx.set('userlocation', {
-	    				"lat": window.userinfo.userlocation.lat,
-	    				"long": window.userinfo.userlocation.long
-	    			});
-    			} else {
-    				ctx.set('userlocation', {
-	    				"lat": 25.0000,
-	    				"long": -71.0000
-	    			});
-    			}
-    		}
-    	}
+            function _geolocationFail(ctx){
+                ctx.set('userlocation', {
+                    "lat": 25.0000,
+                    "lng": -71.0000
+                });
+                ctx.trigger('userlocation:ready', ctx.get('userlocation'));
+            }
+            return this;
+        }
     });
 
     /**
      * App.Router
      * Pretty basic Backbone.Router implimentation. Uses Require to go get views, add them as regions
      */
+    //TODO Could be in it's own file
     var _router = Backbone.Router.extend({
     	routes: {
     		"": 		"index",
@@ -95,7 +98,6 @@ define([
     	},
     	help: function(){
     		//example code for having multiple routes
-    		//I don't want to get into this, as I'd have to setup an actual server
     	}
     });
 
@@ -165,6 +167,7 @@ define([
 		App.getRegion('HeaderRegion').show(new headerView({model: App.Settings}))
 		//fire up the Backbone router, will trigger views
 		Backbone.history.start();
+        
 	});
 
 	return App;
