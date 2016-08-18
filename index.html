@@ -18,8 +18,6 @@
 	<header class="nav-header"></header>
 	<div class="map fullscreen"></div>
 
-
-
 	<!-- Bootstrapped data -->
 	<script type="text/javascript">
 		// these would be spat out by the middle tier to hydrate the app
@@ -38,39 +36,6 @@
 			}
 		}
 	</script>
-
-	<!-- You cant your the requirejs-text plugin on localhost :( -->
-	<!-- Templating the lame way -->
-	<script type="text/x-handlebars-template" id="tpl-header">
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-			
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-			  		<a class="navbar-brand" href="#">Weather Viewer</a>
-				</div>
-
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						{{#if userinfo.isLoggedIn}}
-						<li class="active"><a href="#">{{userinfo.username}} <span class="sr-only">(current)</span></a></li>
-						<li><a href="http://google.com">Logout</a></li>
-						{{else}}
-						<li><a href="http://google.com">Login</a></li>
-						{{/if}}
-					</ul>
-				</div>
-				
-			</div>
-		</nav>
-
-	</script>
-
 
 	<script type="text/javascript" data-main="src/init" src="bower_components/requirejs/require.js"></script>
 </body>
