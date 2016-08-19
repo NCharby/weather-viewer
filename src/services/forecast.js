@@ -23,7 +23,7 @@ define([
 		},
 		/**
 		 * Get the current weather for a point on the map
-		 * @param  {object} lngLat the map pint from MapBox {lng, lat}
+		 * @param  {object} lngLat the map point from MapBox {lng, lat}
 		 * @return {Promise} Jquery Ajax
 		 */
 		getCurrent: function(lngLat){
@@ -34,10 +34,8 @@ define([
 			return this._requestWeather(url, callback);
 		},
 		/**
-		 * [getPast description]
-		 * @param  {[type]} lngLat [description]
-		 * @param  {[type]} time   [description]
-		 * @return {[type]}        [description]
+		 * @param  {object} lngLat lngLat the map point from MapBox {lng, lat}
+		 * @return {Promise}
 		 */
 		getPast: function(lngLat){
 			var dfd = $.Deferred();
@@ -64,10 +62,9 @@ define([
 			return dfd.promise();
 		},
 		/**
-		 * [_requestWeather description]
-		 * @param  {[type]}   url      [description]
-		 * @param  {Function} callback [description]
-		 * @return {[type]}            [description]
+		 * @param  {string}   url      
+		 * @param  {Function} callback 
+		 * @return {Promise}            
 		 */
 		_requestWeather: function(url, callback){
 			return $.ajax({

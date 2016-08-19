@@ -76,14 +76,6 @@ define([
 			//clean up the view when the popup closes
 			this.Popup.on('close', View.destroy)
 
-		},
-
-		getPopupHTML: function(){
-
-		},
-
-		onGeocoderResult: function(evt){
-
 		}
 	})
 })

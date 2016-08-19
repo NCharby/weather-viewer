@@ -39,6 +39,10 @@ define([
 			this.trigger('render');
 			$("#chart").plot(this.getChartData(), {xaxis:{tickSize: 1}});
 		},
+		/**
+		 * Getter and formatter for $.plot to use
+		 * @return {Array} 
+		 */
 		getChartData: function(){
 			return [
 				{
@@ -55,7 +59,6 @@ define([
 	return Backbone.View.extend({
 		className: "container-fluid",
 		initialize: function(opts){
-
 			// destroy has the context of the MapBox Popup normally.
 			_.bindAll(this, "destroy");
 			//setup subviews
@@ -65,12 +68,21 @@ define([
 			this.CurrentWeather.on('render', this.renderCurrent, this);
 			this.PastWeather.on('render', this.renderPast, this)
 		},
+		/**
+		 * Append the top part of the popup
+		 */
 		renderCurrent: function(){
 			this.$el.append(this.CurrentWeather.$el);
 		},
+		/**
+		 * Append the chart to the popup
+		 */
 		renderPast: function(){
 			this.$el.append(this.PastWeather.$el);
 		},
+		/**
+		 * Cleanup any binding when the popup goes away
+		 */
 		destroy: function(){
 			this.stopListening();
 		}
