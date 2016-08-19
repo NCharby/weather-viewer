@@ -39,5 +39,7 @@ Within the project root, run:
 
 And go to 127.0.0.1:8080 in your browser
 
+For Unit tests, go to http://127.0.0.1:8080/test/SpecRunner.html
+
 
 *Enjoy* 
