@@ -25,7 +25,8 @@
     "jquery": "^3.1.0",
     "bootstrap": "^3.3.7",
     "moment": "^2.14.1",
-    "chartist": "^0.9.8"
+    "chartist": "^0.9.8",
+    "Flot": "flot#^0.8.3"
   },
   "devDependencies": {
     "lodash": "^4.15.0"

@@ -2,9 +2,9 @@ define([
 	"text!../tpl/weather-now.html!strip",
 	"text!../tpl/weather-past.html!strip",
 	"handlebars",
-	"chartist",
+	"jquery.flot",
 	"moment"
-], function(tplNow, tplPast, Handlebars, Chartist, moment){
+], function(tplNow, tplPast, Handlebars, Flot, moment){
 
 	//Using a regular old Backbone view here for simplicity
 	//Marionette tries to manage too much sometimes. Mapbox will
@@ -37,23 +37,18 @@ define([
 		render: function(){
 			this.$el.html(this.template());
 			this.trigger('render');
-			_.defer(function(){
-				this.Chart = new Chartist.Line(this.$('canvas')[0], this.getChartData(),{
-					width: "300px",
-					height: "200px"
-				});
-				console.log(this.Chart)
-			}.bind(this))
+			$("#chart").plot(this.getChartData(), {xaxis:{tickSize: 1}});
 		},
 		getChartData: function(){
-			return {
-				labels: _.map(this.collection.toJSON(), function(m){
-					return moment.unix(m.currently.time).format("HH");
-				}),
-				series: [ _.map(this.collection.toJSON(), function(m){
-					return m.currently.temperature;
-				})]
-			}
+			return [
+				{
+					label: "temp",
+					data: _.map(this.collection.toJSON(), function(m, i){
+						return [i, m.currently.temperature];
+					})
+				}
+			]
+			
 		}
 	});
 

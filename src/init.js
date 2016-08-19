@@ -9,7 +9,7 @@ require.config({
 		text: "../bower_components/text/text",
 		moment: "../bower_components/moment/min/moment.min",
 		bootstrap: "../bower_components/bootstrap/dist/js/bootstrap.min",
-		chartist: "../bower_components/chartist/dist/chartist.min"
+		"jquery.flot": "../bower_components/Flot/jquery.flot"
 	},
 	shim: {
 		underscore: {
@@ -26,7 +26,11 @@ require.config({
 	    tpl: ["text"],
 	    bootstrap: { 
 	    	"deps": ['jquery'] 
-	    }
+	    },
+	    'jquery.flot': {
+            deps: ['jquery'],
+            exports: '$.plot'
+        }
 	}
 
 });
