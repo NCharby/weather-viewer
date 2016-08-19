@@ -17,7 +17,7 @@ define([
 			_.bindAll(this, "onClick", "onGeocoderResult");
 
 			//init the service
-			App.setService('Forecast', Forecast);
+			App.setService('Forecast', Forecast, App.Settings.get('apikeys').forecast);
 			//Wait to do anything until the settings object has a location to start at
 			App.Settings.on('userlocation:ready', function(){
 				this.Map = this.initMap(App.Settings.get('apikeys').mapbox);

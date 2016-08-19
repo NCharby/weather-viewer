@@ -26,5 +26,8 @@
     "bootstrap": "^3.3.7",
     "moment": "^2.14.1",
     "chartist": "^0.9.8"
+  },
+  "devDependencies": {
+    "lodash": "^4.15.0"
   }
 }

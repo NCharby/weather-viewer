@@ -1,6 +1,8 @@
 define([
+	"app",
+	"backbone",
 	"moment"
-], function(moment){
+], function(App, Backbone, moment){
 
 	//We need to custom sort function to put the returning weather hours in order
 	var pastCollection =  Backbone.Collection.extend({
@@ -11,13 +13,14 @@ define([
 
 	//to be honest, Backbone isn't good at getting this structure of data
 	//Good thing we can shim in our own functionality
-	return Backbone.Model.extend({
-		initialize: function(){
-			if(!App.Settings.get('apikeys').forecast){
+	var _service = Backbone.Model.extend({
+		initialize: function(key){
+			if(!key){
 				throw new Error("No Forecast.io key present")
 			}
+			this.apikKey = key;
+			this.baseUrl = "https://api.forecast.io/forecast/" + this.apikKey + "/"; 
 		},
-		baseUrl: "https://api.forecast.io/forecast/" + App.Settings.get('apikeys').forecast + "/",
 		/**
 		 * Get the current weather for a point on the map
 		 * @param  {object} lngLat the map pint from MapBox {lng, lat}
@@ -25,10 +28,10 @@ define([
 		 */
 		getCurrent: function(lngLat){
 			var callback = function(data){
-				this.set(data)
+				return this.set(data)
 			}.bind(this);
 			var url = this.baseUrl + lngLat.lat +','+ lngLat.lng + "?units=auto";
-			return this._requestWeather(url, false, callback);
+			return this._requestWeather(url, callback);
 		},
 		/**
 		 * [getPast description]
@@ -37,7 +40,6 @@ define([
 		 * @return {[type]}        [description]
 		 */
 		getPast: function(lngLat){
-			
 			var dfd = $.Deferred();
 			//counter for when all have finished
 			var dataCollection = new pastCollection()
@@ -64,11 +66,10 @@ define([
 		/**
 		 * [_requestWeather description]
 		 * @param  {[type]}   url      [description]
-		 * @param  {[type]}   time     [description]
 		 * @param  {Function} callback [description]
 		 * @return {[type]}            [description]
 		 */
-		_requestWeather: function(url, time, callback){
+		_requestWeather: function(url, callback){
 			return $.ajax({
 				url: url,
 				dataType:'jsonp', //forgive me, I fought setting up a proxy for like 3 hours..
@@ -78,4 +79,5 @@ define([
 		}
 	})
 
+	return _service;
 })
